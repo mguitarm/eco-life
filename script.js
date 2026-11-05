@@ -133,7 +133,7 @@ function renderArticles(articlesArray) {
                 </div>
                 <button class="read-more-btn">Читать далее</button>
                 <footer>
-                    <p>Теги: ${article.tags}</p>
+                    <p>${article.tags}</p>
                     <button class="like-btn">❤ Лайк (<span class="likecount">0</span>)</button>
                 </footer>
             </article>
