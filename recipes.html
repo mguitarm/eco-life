@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>EcoLife — Полезные рецепты</title>
+    <!-- Подключаем ваш основной файл стилей -->
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+    <!-- Шапка сайта (такая же, как на главной) -->
+    <header>
+        <h1>EcoLife</h1>
+        <nav>
+            <ul>
+                <li><a href="index.html">Главная</a></li>
+                <li><a href="recipes.html">Рецепты</a></li>
+                <li><a href="index.html#about">Польза</a></li>
+            </ul>
+        </nav>
+        <!-- Кнопка переключения темы -->
+        <button class="theme-btn" id="themeBtn">🌙 Темная тема</button>
+    </header>
+
+    <!-- Основное содержимое страницы -->
+    <main>
+
+        <!-- Левая колонка: Рецепты -->
+        <section id="recipes-section">
+            <h2>Простые и полезные рецепты</h2>
+
+            <!-- РЕЦЕПТ 1 -->
+            <article>
+                <header>
+                    <h3>1. Греческий салат</h3>
+                    <p>Время приготовления: 15 минут</p>
+                </header>
+                
+                <!-- Картинка из папки img -->
+                <img src="img/salad.jpg" alt="Греческий салат" class="recipe-img">
+                
+                <!-- Текст, который сворачивается -->
+                <div class="article-text short">
+                    <h4>Ингредиенты:</h4>
+                    <ul>
+                        <li>Огурцы — 2 шт</li>
+                        <li>Помидоры — 2 шт</li>
+                        <li>Болгарский перец — 1 шт</li>
+                        <li>Фета — 100 г</li>
+                        <li>Маслины — 50 г</li>
+                        <li>Оливковое масло, соль, орегано</li>
+                    </ul>
+                    <h4>Приготовление:</h4>
+                    <p>Нарежьте овощи крупными кусками, добавьте фету и маслины, заправьте маслом и посыпьте орегано.</p>
+                </div>
+                
+                <!-- Кнопка для сворачивания/разворачивания -->
+                <button class="read-more-btn">Читать далее</button>
+                
+                <footer>
+                    <p>Теги: #салат #греция #полезно</p>
+                    <button class="like-btn">❤ Лайк (<span class="likecount">0</span>)</button>
+                </footer>
+            </article>
+
+            <!-- РЕЦЕПТ 2 -->
+            <article>
+                <header>
+                    <h3>2. Смузи из шпината и банана</h3>
+                    <p>Время приготовления: 5 минут</p>
+                </header>
+                
+                <!-- Картинка из папки img -->
+                <img src="img/smoothie.jpg" alt="Зеленый смузи" class="recipe-img">
+                
+                <div class="article-text short">
+                    <h4>Ингредиенты:</h4>
+                    <ul>
+                        <li>Банан — 1 шт</li>
+                        <li>Шпинат свежий — горсть</li>
+                        <li>Йогурт натуральный — 150 мл</li>
+                        <li>Мёд — 1 ч. ложка</li>
+                    </ul>
+                    <h4>Приготовление:</h4>
+                    <p>Смешайте все ингредиенты в блендере до однородности. Отличный перекус!</p>
+                </div>
+                
+                <button class="read-more-btn">Читать далее</button>
+                
+                <footer>
+                    <p>Теги: #смузи #шпинат #банан</p>
+                    <button class="like-btn">❤ Лайк (<span class="likecount">0</span>)</button>
+                </footer>
+            </article>
+
+        </section>
+
+        <!-- Правая колонка (Сайдбар) -->
+        <aside id="about">
+            <h3>Совет шефа</h3>
+            <p>Старайтесь использовать сезонные овощи и фрукты. Они не только вкуснее, но и содержат больше витаминов!</p>
+            <br>
+            <h3>О пользе зелени</h3>
+            <p>Шпинат, петрушка и укроп — это кладезь витаминов. Добавляйте их в любые блюда, чтобы сделать рацион более сбалансированным.</p>
+        </aside>
+
+    </main>
+
+    <!-- Подвал сайта -->
+    <footer>
+        <p>© 2026 EcoLife — здоровое питание для каждого</p>
+        <p><a href="index.html">На главную</a> | <a href="recipes.html">Рецепты</a></p>
+    </footer>
+
+    <!-- Подключаем скрипт для работы кнопок -->
+    <script src="script.js"></script>
+</body>
+</html>

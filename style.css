@@ -1,271 +1,414 @@
 /* =======================================================================
    1. ГЛОБАЛЬНЫЙ СБРОС И БАЗОВЫЕ НАСТРОЙКИ
    =======================================================================*/
-*, *::before, *::after {
+* {
     margin: 0;
     padding: 0;
-    box-sizing: border-box; /* Защита от раздувания блоков при добавлении padding */
+    box-sizing: border-box;
 }
 
 body {
+    background-color: #f5f9f0;      /* светлый травяной фон */
     font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    color: #2c3e2f;                 /* темно-зеленый текст */
     line-height: 1.6;
-    background-color: #f4f4f9; /* Мягкий светло-серый фон страницы */
-    color: #333333;            /* Темно-серый цвет для комфортного чтения */
+    padding-top: 100px;             /* Отступ, чтобы контент не уходил под фиксированную шапку */
+    transition: background-color 0.3s, color 0.3s;
 }
 
 /* =======================================================================
-   2. ШАПКА САЙТА (HEADER) И ГЛАВНАЯ НАВИГАЦИЯ (NAV)
+   2. ГЛАВНАЯ ШАПКА САЙТА
    =======================================================================*/
-header {
-    background-color: #2c3e50; /* Глубокий темно-синий */
-    color: #ffffff;
-    padding: 20px 40px;
-    
-    /* Включение Flexbox для шапки */
+body > header {
+    background-color: #2c5e2e;      /* насыщенный зеленый */
+    color: white;
     display: flex;
-    justify-content: space-between; /* Логотип влево, меню вправо */
-    align-items: center;            /* Выравнивание по центру по вертикали */
+    justify-content: space-between;
+    align-items: center;
+    padding: 15px 10%;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    z-index: 100;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+    transition: background-color 0.3s;
 }
 
-header h1 {
-    font-size: 1.8rem;
+body > header h1 {
+    font-size: 1.6rem;
+    font-weight: bold;
     letter-spacing: 1px;
+    color: #ffffff;
+    margin: 0; /* Убираем лишние отступы */
+    line-height: 1; 
 }
 
-/* Главное меню */
+/* Навигация */
 nav ul {
     list-style: none;
-    
-    /* Меню тоже становится флекс-контейнером */
-    display: flex; 
-    gap: 25px; /* Автоматический зазор между пунктами меню */
+    display: flex;
+    gap: 25px;
+    align-items: center;
 }
 
-nav ul li a {
-    color: #ffffff;
+nav a {
+    color: white;
     text-decoration: none;
-    font-weight: 600;
-    transition: color 0.3s ease; /* Плавная анимация смены цвета */
+    font-weight: 500;
+    transition: 0.3s;
+    font-size: 1.2rem;
 }
 
-nav ul li a:hover {
-    color: #1abc9c; /* Бирюзовый цвет при наведении курсора */
+nav a:hover {
+    color: #d4e6a3; /* светло-салатовый при наведении */
+    text-decoration: underline;
 }
 
 /* =======================================================================
-   3. ОСНОВНОЙ КОНТЕНТ (MAIN) И ДВУХКОЛОНОЧНАЯ СЕТКА (FLEXBOX)
-   ===================================================================== */
+   3. ОСНОВНОЙ КОНТЕНТ (MAIN И СЕТКА)
+   =======================================================================*/
 main {
-    max-width: 1150px;   /* Ограничиваем максимальную ширину сайта */
-    margin: 40px auto;   /* 40px отступ сверху/снизу, auto — центрирует сайт */
-    padding: 0 20px;     /* Защитные отступы по бокам для мобильных экранов */
-    
-    /* Создание главной двухколоночной сетки */
-    display: flex;
-    gap: 30px;           /* Расстояние между колонкой статей и сайдбаром */
-    align-items: flex-start; /* Сайдбар не растягивается, а сжимается под свой контент */
-}
-
-/* --- ЛЕВАЯ КОЛОНКА: СЕКЦИЯ СТАТЕЙ --- */
-main section {
-    flex: 7; /* Занимает 70% от общей ширины контейнера */
-}
-
-section h2 {
-    font-size: 1.8rem;
-    color: #2c3e50;
-    margin-bottom: 25px;
-}
-
-/* Карточка отдельной статьи */
-article {
-    background-color: #ffffff;
+    max-width: 1150px;
+    margin: 20px auto 40px auto;
     padding: 30px;
-    margin-bottom: 35px; /* Отступ до следующей статьи */
-    border-radius: 8px;
-    border: 1px solid #e2e8f0;
-    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.05); /* Легкая тень */
+    background-color: rgba(255, 255, 255, 0.95);
+    border-radius: 20px;
+    box-shadow: 0 4px 15px rgba(0,0,0,0.05);
+    display: flex;
+    gap: 30px;
+    align-items: flex-start;
+    transition: background-color 0.3s;
 }
 
-article header h3 {
-    font-size: 1.5rem;
-    color: #f4f4f9;
-    margin-bottom: 8px;
+main section {
+    flex: 7; /* Левая колонка со статьями */
 }
 
-article header p {
-    font-size: 0.95rem;
-    color: #7f8c8d; /* Серый цвет для даты */
-    margin-bottom: 15px;
-}
-
-article p {
-    color: #555555;
-    margin-bottom: 20px;
-}
-
-/* Подвал статьи с тегами */
-article footer {
-    border-top: 1px dashed #e2e8f0; /* Пунктирная линия над тегами */
-    padding-top: 15px;
-    font-size: 0.95rem;
-    color: #1abc9c;
-    font-weight: bold;
-}
-
-/* --- ПРАВАЯ КОЛОНКА: БОКОВАЯ ПАНЕЛЬ (SIDEBAR) --- */
 main aside {
-    flex: 3; /* Занимает 30% от общей ширины контейнера */
-    background-color: #eef2f3;
+    flex: 3; /* Правая колонка (сайдбар) */
+    background-color: #eef4e9; 
     padding: 25px;
-    border-radius: 8px;
-    border-left: 6px solid #2c3e50; /* Акцентная линия слева */
+    border-radius: 12px;
+    border-left: 6px solid #6aa84f; /* Акцентная полоса */
+}
+
+h1, h2 {
+    color: #1f4f21;
+    margin-bottom: 20px;
+    border-left: 6px solid #6aa84f;
+    padding-left: 15px;
 }
 
 aside h3 {
-    color: #2c3e50;
-    margin-bottom: 12px;
+    color: #2c5e2e;
+    margin-bottom: 10px;
 }
 
-aside h3:not(:first-child) {
-    margin-top: 25px; /* Отступ перед вторым заголовком в сайдбаре */
+/* =======================================================================
+   4. КАРТОЧКИ СТАТЕЙ И РЕЦЕПТОВ
+   =======================================================================*/
+article {
+    background-color: #ffffff;
+    padding: 30px;
+    margin-bottom: 35px;
+    border-radius: 16px; 
+    border: 1px solid #e2e8f0;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.05);
+    overflow: hidden;
+    transition: background-color 0.3s, border-color 0.3s;
 }
 
-aside p {
-    font-size: 0.95rem;
-    color: #4a5568;
+/* Плашка-заголовок ВНУТРИ карточки (не наследует position: fixed) */
+article header {
+    background-color: #2c5e2e; 
+    color: white;
+    padding: 15px 20px;
+    margin: -30px -30px 20px -30px; /* Растягиваем на всю ширину */
+    border-radius: 16px 16px 0 0; 
 }
 
-/* =====================================================================
-   4. ПОДВАЛ САЙТА (FOOTER)
-   ===================================================================== */
-body > footer {
-    background-color: #34495e;
+article header h3 {
+    font-size: 1.4rem;
     color: #ffffff;
-    text-align: center;
-    padding: 25px;
-    margin-top: 60px;
-    font-size: 0.95rem;
-}
-
-body > footer p {
     margin-bottom: 5px;
 }
 
-body > footer a {
-    color: #1abc9c;
-    text-decoration: none;
+article header p {
+    font-size: 0.9rem;
+    color: #d4e6a3; 
 }
 
-body > footer a:hover {
-    text-decoration: underline; /* Подчеркивание ссылки при наведении */
+article p {
+    color: #444444;
+    margin-bottom: 15px;
 }
 
-/* =============================================================
-   5. АДАПТИВНОСТЬ ДЛЯ МОБИЛЬНЫХ УСТРОЙСТВ (Экраны до 768px)
-   =============================================================*/
-@media (max-width: 768px) {
-
-    /* Шапка: элементы встают друг под друга по центру */
-    header {
-        flex-direction: column;
-        text-align: center;
-        padding: 20px;
-        gap: 15px;
-    }
-
-    /* Главное меню в шапке: центрируем и уменьшаем зазор */
-    nav ul {
-        justify-content: center;
-        gap: 15px;
-        flex-wrap: wrap; /* Если ссылок станет много, они перенесутся на новую строку */
-    }
-
-    /* Основной контейнер: превращаем колонки в вертикальный ряд */
-    main {
-        flex-direction: column; /* Сайдбар уходит под статьи */
-        gap: 20px;
-        margin: 20px auto;
-        padding: 0 10px;
-    }
-
-    /* Карточки статей и сайдбар занимают всю доступную ширину */
-    main section, 
-    main aside {
-        flex: none;
-        width: 100%;
-    }
-
-    /* Немного уменьшаем внутренние отступы в карточках для мобильных */
-    article {
-        padding: 20px;
-    }
+/* Внутренний текст статей */
+.article-text h4 {
+    color: #1f4f21;
+    margin: 15px 0 5px 0;
+    font-size: 1.1rem;
 }
 
-/* --- СТИЛИ ДЛЯ ТЕМНОЙ ТЕМЫ --- */
-body.dark-theme {
-    background-color: #1a1a2e; /* Темный фон страницы */
-    color: #e2e8f0; /* Светлый текст */
-}
-body.dark-theme header {
-    background-color: #161625; /* Еще более темная шапка*/
-}
-body.dark-theme article {
-    background-color: #22223b; /* Темные карточки статей*/
-    border-color: #4a4e69;
-    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.3);
-}
-body.dark-theme article header h3,
-body.dark-theme section h2,
-body.dark-theme aside h3 {
-    color: #ffffff; /* Белые заголовки в темной теме */
-}
-body.dark-theme aside {
-    background-color: #161625; /* Серый фон сайдбара в темной теме */border-left-color: #1abc9c;
+.article-text ul {
+    margin-left: 20px;
+    margin-bottom: 15px;
 }
 
-body.dark-theme p {
-    font-size: 0.95rem;
-    color: #6f7d96;
+.article-text li {
+    margin: 5px 0;
+    color: #444444;
 }
 
-/* Стили для самой кнопки */
+/* Обрезка текста (сворачивание) */
+.article-text.short {
+    display: -webkit-box;
+    -webkit-line-clamp: 1; /* Показывает 2 строки в свернутом виде */
+    line-clamp: 2;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+}
+
+/* =======================================================================
+   5. СТИЛИ ДЛЯ КАРТИНОК РЕЦЕПТОВ
+   =======================================================================*/
+.recipe-img {
+    width: 100%;              
+    max-width: 400px;         
+    height: auto;             
+    object-fit: cover;
+    border-radius: 12px;      
+    margin: 15px 0;
+    box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+    display: block;           
+}
+
+/* =======================================================================
+   6. КНОПКИ
+   =======================================================================*/
+.read-more-btn, .like-btn {
+    background-color: #eef4e9;
+    color: #2c5e2e;
+    border: 1px solid #b9cfaa;
+    padding: 8px 16px;
+    border-radius: 20px;
+    cursor: pointer;
+    font-weight: 600;
+    font-family: inherit;
+    font-size: 0.9rem;
+    transition: all 0.3s ease;
+    margin-bottom: 15px;
+}
+
+.read-more-btn:hover, .like-btn:hover {
+    background-color: #2c5e2e;
+    color: white;
+}
+
 .theme-btn {
-    background-color: #1abc9c;
+    background-color: #6aa84f;
     color: white;
     border: none;
-    padding: 5px 12px;
-    border-radius: 4px;
+    padding: 8px 16px;
+    border-radius: 20px;
     cursor: pointer;
     font-weight: bold;
     font-family: inherit;
     transition: background 0.3s ease;
 }
+
 .theme-btn:hover {
-    background-color: #16a085;
+    background-color: #d4e6a3;
+    color: #1f4f21;
 }
 
-.article-text.short {
-    display: -webkit-box;
-    -webkit-line-clamp: 1; /* Ограничиваем текст всего одной строкой */
-    -webkit-box-orient: vertical;
-    overflow: hidden;
+/* =======================================================================
+   7. ПОДВАЛ СТАТЬИ (ТЕГИ И ЛАЙКИ)
+   =======================================================================*/
+article footer {
+    border-top: 1px dashed #b9cfaa;
+    padding-top: 15px;
+    font-size: 0.95rem;
+    color: #2c7a2d; 
+    font-weight: bold;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
 }
 
+article footer p { margin-bottom: 0; color: #2c7a2d; }
+article footer .like-btn { margin-bottom: 0; }
 
-/*Стили для живого поиска статей*/
+/* =======================================================================
+   8. ПОИСК
+   =======================================================================*/
 .search-container { margin-bottom: 25px; }
+
 #searchInput {
     width: 100%;
-    padding: 12px 15px;
+    padding: 12px 20px;
     font-size: 1rem;
-    border: 1px solid #e2e8f0;
-    border-radius: 6px;
+    border: 2px solid #d4e6c3;
+    border-radius: 30px;
     outline: none;
+    background-color: #ffffff;
+    transition: border-color 0.3s, background-color 0.3s;
 }
-body.dark-theme #searchInput {
-    background-color: #22223b;
+
+#searchInput:focus {
+    border-color: #6aa84f;
+}
+
+/* =======================================================================
+   9. ГЛАВНЫЙ ПОДВАЛ САЙТА (FOOTER)
+   =======================================================================*/
+body > footer {
+    background-color: #1f3b20;
+    color: #cfe2c0;
+    text-align: center;
+    padding: 25px;
+    font-size: 0.95rem;
+}
+
+body > footer p { margin-bottom: 5px; }
+
+body > footer a {
+    color: #d4e6a3;
+    text-decoration: none;
+}
+
+body > footer a:hover {
     color: white;
-    border-color: #4a4e69;
+    text-decoration: underline;
+}
+
+/* =======================================================================
+   10. АДАПТИВНОСТЬ (МОБИЛЬНЫЕ УСТРОЙСТВА)
+   =======================================================================*/
+@media (max-width: 768px) {
+    body > header {
+        flex-direction: column;
+        text-align: center;
+        padding: 15px;
+        gap: 15px;
+    }
+    body { padding-top: 170px; } /* Больше отступ, т.к. шапка стала выше */
+
+    nav ul {
+        justify-content: center;
+        gap: 15px;
+        flex-wrap: wrap; 
+    }
+
+    main {
+        flex-direction: column; 
+        margin: 10px auto;
+        padding: 20px;
+    }
+
+    main section, main aside {
+        width: 100%;
+    }
+
+    article { padding: 20px; }
+    article header {
+        margin: -20px -20px 20px -20px; 
+        padding: 15px;
+    }
+}
+
+/* =======================================================================
+   11. ТЕМНАЯ ТЕМА
+   =======================================================================*/
+body.dark-theme {
+    background-color: #121a14; 
+    color: #cbd5e1; 
+}
+
+body.dark-theme body > header {
+    background-color: #1a2e1d; 
+    box-shadow: 0 2px 8px rgba(0,0,0,0.4);
+}
+
+body.dark-theme main {
+    background-color: #1a241c; 
+    box-shadow: 0 4px 15px rgba(0,0,0,0.3);
+}
+
+body.dark-theme aside {
+    background-color: #141c15;
+    border-left-color: #6aa84f;
+}
+
+body.dark-theme h1, 
+body.dark-theme h2, 
+body.dark-theme aside h3 {
+    color: #d4e6a3; 
+    border-left-color: #6aa84f;
+}
+
+body.dark-theme article {
+    background-color: #243026; 
+    border-color: #344e38;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.2);
+}
+
+body.dark-theme article header {
+    background-color: #1a2e1d; 
+}
+
+body.dark-theme article header h3 {
+    color: #ffffff;
+}
+
+body.dark-theme article header p {
+    color: #8cae8e; 
+}
+
+body.dark-theme article p {
+    color: #cbd5e1; 
+}
+
+body.dark-theme .article-text h4 {
+    color: #d4e6a3;
+}
+
+body.dark-theme .article-text li {
+    color: #cbd5e1;
+}
+
+body.dark-theme article footer {
+    border-top-color: #344e38;
+}
+
+body.dark-theme article footer p {
+    color: #6aa84f; 
+}
+
+body.dark-theme .read-more-btn, 
+body.dark-theme .like-btn {
+    background-color: #243026;
+    color: #d4e6a3;
+    border-color: #344e38;
+}
+
+body.dark-theme .read-more-btn:hover, 
+body.dark-theme .like-btn:hover {
+    background-color: #6aa84f;
+    color: #121a14;
+}
+
+body.dark-theme #searchInput {
+    background-color: #243026;
+    color: white;
+    border-color: #344e38;
+}
+
+body.dark-theme #searchInput:focus {
+    border-color: #6aa84f;
+}
+
+body.dark-theme body > footer {
+    background-color: #0c130d;
 }
