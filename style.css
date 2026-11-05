@@ -412,3 +412,24 @@ body.dark-theme #searchInput:focus {
 body.dark-theme body > footer {
     background-color: #0c130d;
 }
+
+/* Стиль для ссылки на Telegram */
+.tg-link {
+    color: #1abc9c; /* Ваш фирменный зеленый/бирюзовый цвет */
+    text-decoration: none; /* Убираем подчеркивание */
+    font-weight: bold;
+    transition: color 0.3s ease;
+}
+
+.tg-link:hover {
+    color: #16a085; 
+    text-decoration: underline; /* Подчеркиваем только при наведении */
+}
+
+/* Для темной темы */
+body.dark-theme .tg-link {
+    color: #6aa84f; 
+}
+body.dark-theme .tg-link:hover {
+    color: #d4e6a3;
+}
