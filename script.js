@@ -14,7 +14,7 @@ if (themeButton) {
 }
 
 // ==========================================
-// 2. БАЗА ДАННЫХ СТАТЕЙ (ДЛЯ ГЛАВНОЙ СТРАНИЦЫ)
+// 2. БАЗА ДАННЫХ СТАТЕЙ (С ПОДДЕРЖКОЙ LOCALSTORAGE)
 // ==========================================
 let articlesData = JSON.parse(localStorage.getItem('myBlogPosts')) || [
     {
@@ -66,34 +66,47 @@ let articlesData = JSON.parse(localStorage.getItem('myBlogPosts')) || [
 ];
 
 // ==========================================
-// 3. ФУНКЦИИ ДЛЯ КНОПОК (Лайк и Читать далее)
+// 3. ФУНКЦИИ ДЛЯ КНОПОК
 // ==========================================
 
+// Лайк-переключатель (нажал - поставил, нажал - убрал)
 function handleLike(event) {
     const button = event.currentTarget;
     const countSpan = button.querySelector('.likecount');
     let currentLikes = parseInt(countSpan.textContent);
 
-    // Проверяем, есть ли у кнопки класс "liked" (значит, лайк уже стоит)
     if (button.classList.contains('liked')) {
-        // Если лайк уже есть — убираем его
         button.classList.remove('liked');
         countSpan.textContent = currentLikes - 1;
-        button.style.backgroundColor = ''; // Возвращаем стандартный цвет фона
-        button.style.color = '';           // Возвращаем стандартный цвет текста
+        button.style.backgroundColor = ''; // Сброс цвета
+        button.style.color = '';           
     } else {
-        // Если лайка нет — ставим его
         button.classList.add('liked');
         countSpan.textContent = currentLikes + 1;
-        button.style.backgroundColor = '#e74c3c'; // Красный цвет при лайке
+        button.style.backgroundColor = '#e74c3c'; // Красный цвет
         button.style.color = 'white';
     }
 }
 
-// Навешиваем события на новые кнопки (используется при рендере)
+// Сворачивание/разворачивание текста
+function handleReadMore(event) {
+    const btn = event.currentTarget;
+    const article = btn.closest('article');
+    const textBlock = article.querySelector('.article-text');
+    
+    if (textBlock) {
+        textBlock.classList.toggle('short');
+        if (textBlock.classList.contains('short')) {
+            btn.textContent = 'Читать далее';
+        } else {
+            btn.textContent = 'Свернуть';
+        }
+    }
+}
+
+// Навешиваем события на новые кнопки
 function attachEventListeners() {
     document.querySelectorAll('.like-btn').forEach(button => {
-        // Сначала удаляем старый обработчик, чтобы не было двойных кликов при поиске
         button.removeEventListener('click', handleLike);
         button.addEventListener('click', handleLike);
     });
@@ -104,14 +117,14 @@ function attachEventListeners() {
 }
 
 // ==========================================
-// 4. РЕНДЕР (Отрисовка) СТАТЕЙ НА ГЛАВНОЙ
+// 4. РЕНДЕР (Отрисовка) СТАТЕЙ
 // ==========================================
 const postsContainer = document.getElementById('postsContainer');
 
 function renderArticles(articlesArray) {
-    if (!postsContainer) return; // Если мы не на главной странице, ничего не делаем
+    if (!postsContainer) return;
 
-    postsContainer.innerHTML = ''; // Очищаем контейнер
+    postsContainer.innerHTML = '';
 
     if (articlesArray.length === 0) {
         postsContainer.innerHTML = '<p class="noresults">Ничего не найдено 😢 </p>';
@@ -138,15 +151,14 @@ function renderArticles(articlesArray) {
         postsContainer.insertAdjacentHTML('beforeend', articleHtml);
     });
 
-    // Обязательно навешиваем события после того, как HTML вставлен
     attachEventListeners();
 }
 
-// Первичный запуск рендера (если мы на главной)
+// Первичный запуск
 renderArticles(articlesData);
 
 // ==========================================
-// 5. ЖИВОЙ ПОИСК
+// 5. ЖИВОЙ ПОИСК (ВОТ ОН!)
 // ==========================================
 const searchInput = document.getElementById('searchInput');
 if (searchInput) {
@@ -154,7 +166,6 @@ if (searchInput) {
         const searchText = event.target.value.toLowerCase().trim();
         
         const filteredArticles = articlesData.filter(article => {
-            // Очищаем HTML-теги, чтобы искать по чистому тексту
             const cleanContent = article.content.replace(/<[^>]+>/g, ' ').toLowerCase();
             const inTitle = article.title.toLowerCase().includes(searchText);
             const inText = cleanContent.includes(searchText);
@@ -170,10 +181,7 @@ if (searchInput) {
 // 6. СКРИПТ ДЛЯ СТРАНИЦЫ РЕЦЕПТОВ (recipes.html)
 // ==========================================
 document.addEventListener('DOMContentLoaded', () => {
-    // Проверяем, есть ли на странице картинки рецептов. Если да — значит, мы на recipes.html
     if (document.querySelector('.recipe-img')) {
-        
-        // Оживляем кнопки лайков и "Читать далее" вручную
         const recipeLikeBtns = document.querySelectorAll('.like-btn');
         recipeLikeBtns.forEach(button => {
             button.addEventListener('click', handleLike);
@@ -193,7 +201,6 @@ const addForm = document.getElementById('addArticleForm');
 
 if (addForm) {
     addForm.addEventListener('submit', function(event) {
-        // Отменяем перезагрузку страницы
         event.preventDefault(); 
 
         const postTitleInput = document.getElementById('postTitle');
@@ -202,41 +209,32 @@ if (addForm) {
 
         const titleValue = postTitleInput.value.trim();
         const textValue = postTextInput.value.trim();
-        const tagsValue = postTagsInput.value.trim() || "#здоровье"; // Тег по умолчанию
+        const tagsValue = postTagsInput.value.trim() || "#здоровье";
 
-        // --- ПРОСТАЯ ВАЛИДАЦИЯ ---
         if (titleValue.length < 5) {
             alert('Ошибка: Заголовок статьи должен быть не короче 5 символов!');
-            return; // Останавливаем выполнение
+            return; 
         }
         if (textValue.length < 20) {
             alert('Ошибка: Описание слишком короткое. Расскажите подробнее (минимум 20 символов)!');
             return;
         }
 
-        // Формируем дату
         const today = new Date();
         const formattedDate = today.toLocaleDateString('ru-RU', { day: 'numeric', month: 'long', year: 'numeric' });
         const isoDate = today.toISOString().split('T')[0];
 
-        // Создаем объект новой статьи
         const newArticle = {
             id: articlesData.length + 1,
             title: titleValue,
             date: formattedDate,
             isoDate: isoDate,
-            // Оборачиваем текст в тег <p>, чтобы он красиво отображался
             content: `<p>${textValue}</p>`, 
             tags: tagsValue
         };
 
-        // Добавляем статью в начало массива
         articlesData.unshift(newArticle);
-
-        // СОХРАНЯЕМ В ПАМЯТЬ БРАУЗЕРА (LocalStorage)
         localStorage.setItem('myBlogPosts', JSON.stringify(articlesData));
-
-        // Перерисовываем список статей и очищаем форму
         renderArticles(articlesData);
         addForm.reset();
     });
