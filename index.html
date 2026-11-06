@@ -3,14 +3,13 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Здоровое питание - Рецепты</title>
+    <title>EcoLife — Здоровое питание и рецепты</title>
     <!-- Подключаем внешний файл стилей -->
     <link rel="stylesheet" href="style.css">
 </head>
 <body>
 
-    <!-- Шапка сайта (Заголовок и навигация) -->
-        <!-- УЛУЧШЕННАЯ ШАПКА -->
+    <!-- УЛУЧШЕННАЯ ШАПКА -->
     <header>
         <h1>EcoLife</h1>
         <nav>
@@ -29,10 +28,35 @@
         <!-- Крупный логический раздел: Список статей -->
         <section id="articles">
             <h2>Публикации</h2>
+            
+            <!-- === ФОРМА ДОБАВЛЕНИЯ НОВОЙ СТАТЬИ (ПР7) === -->
+            <form id="addArticleForm" class="article-form">
+                <h3>Добавить новую публикацию</h3>
+                
+                <div class="form-group">
+                    <label for="postTitle">Заголовок статьи:</label>
+                    <input type="text" id="postTitle" required placeholder="Например: Польза Овсянки">
+                </div>
+                
+                <div class="form-group">
+                    <label for="postText">Текст статьи:</label>
+                    <textarea id="postText" rows="4" required placeholder="Опишите ваш рецепт или советы по питанию..."></textarea>
+                </div>
+                
+                <div class="form-group">
+                    <label for="postTags">Теги (через пробел):</label>
+                    <input type="text" id="postTags" placeholder="Например: #здоровье #завтрак">
+                </div>
+                
+                <button type="submit" class="submit-btn">Опубликовать статью</button>
+            </form>
+            <!-- ============================================ -->
+
             <!-- Поле живого поиска -->
             <div class="search-container">
-                <input type="text" id="searchInput" placeholder="Введите название статьи для поиска...">
+                <input type="text" id="searchInput" placeholder="Введите название статьи для поиска..." aria-label="Поиск по статьям">
             </div>
+            
             <!-- В этот пустой контейнер JavaScript будет вставлять наши статьи -->
             <div id="postsContainer"></div>
         </section>
@@ -41,6 +65,7 @@
         <aside id="about">
             <h3>Об авторе</h3>
             <p>Всех приветствую! Меня зовут Полина. Хочу создать простой сайт для тех, кто хочет питаться вкусной и правильной едой, которая не требует долгого времени готовки.</p>
+            
             <h3>А тут я веду свой личный канал</h3>
             <p>
                 Подписаться -> 

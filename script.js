@@ -16,7 +16,7 @@ if (themeButton) {
 // ==========================================
 // 2. БАЗА ДАННЫХ СТАТЕЙ (ДЛЯ ГЛАВНОЙ СТРАНИЦЫ)
 // ==========================================
-const articlesData = [
+let articlesData = JSON.parse(localStorage.getItem('myBlogPosts')) || [
     {
         id: 1,
         title: "Почему важно питаться правильно",
@@ -68,28 +68,25 @@ const articlesData = [
 // ==========================================
 // 3. ФУНКЦИИ ДЛЯ КНОПОК (Лайк и Читать далее)
 // ==========================================
+
 function handleLike(event) {
     const button = event.currentTarget;
     const countSpan = button.querySelector('.likecount');
     let currentLikes = parseInt(countSpan.textContent);
-    currentLikes++;
-    countSpan.textContent = currentLikes;
-    button.style.backgroundColor = '#e74c3c';
-    button.style.color = 'white';
-}
 
-function handleReadMore(event) {
-    const btn = event.currentTarget;
-    const article = btn.closest('article');
-    const textBlock = article.querySelector('.article-text');
-    
-    if (textBlock) {
-        textBlock.classList.toggle('short');
-        if (textBlock.classList.contains('short')) {
-            btn.textContent = 'Читать далее';
-        } else {
-            btn.textContent = 'Свернуть';
-        }
+    // Проверяем, есть ли у кнопки класс "liked" (значит, лайк уже стоит)
+    if (button.classList.contains('liked')) {
+        // Если лайк уже есть — убираем его
+        button.classList.remove('liked');
+        countSpan.textContent = currentLikes - 1;
+        button.style.backgroundColor = ''; // Возвращаем стандартный цвет фона
+        button.style.color = '';           // Возвращаем стандартный цвет текста
+    } else {
+        // Если лайка нет — ставим его
+        button.classList.add('liked');
+        countSpan.textContent = currentLikes + 1;
+        button.style.backgroundColor = '#e74c3c'; // Красный цвет при лайке
+        button.style.color = 'white';
     }
 }
 
@@ -188,3 +185,59 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     }
 });
+
+// ==========================================
+// 7. ДОБАВЛЕНИЕ НОВЫХ СТАТЕЙ (ФОРМА ИЗ ПР7)
+// ==========================================
+const addForm = document.getElementById('addArticleForm');
+
+if (addForm) {
+    addForm.addEventListener('submit', function(event) {
+        // Отменяем перезагрузку страницы
+        event.preventDefault(); 
+
+        const postTitleInput = document.getElementById('postTitle');
+        const postTextInput = document.getElementById('postText');
+        const postTagsInput = document.getElementById('postTags');
+
+        const titleValue = postTitleInput.value.trim();
+        const textValue = postTextInput.value.trim();
+        const tagsValue = postTagsInput.value.trim() || "#здоровье"; // Тег по умолчанию
+
+        // --- ПРОСТАЯ ВАЛИДАЦИЯ ---
+        if (titleValue.length < 5) {
+            alert('Ошибка: Заголовок статьи должен быть не короче 5 символов!');
+            return; // Останавливаем выполнение
+        }
+        if (textValue.length < 20) {
+            alert('Ошибка: Описание слишком короткое. Расскажите подробнее (минимум 20 символов)!');
+            return;
+        }
+
+        // Формируем дату
+        const today = new Date();
+        const formattedDate = today.toLocaleDateString('ru-RU', { day: 'numeric', month: 'long', year: 'numeric' });
+        const isoDate = today.toISOString().split('T')[0];
+
+        // Создаем объект новой статьи
+        const newArticle = {
+            id: articlesData.length + 1,
+            title: titleValue,
+            date: formattedDate,
+            isoDate: isoDate,
+            // Оборачиваем текст в тег <p>, чтобы он красиво отображался
+            content: `<p>${textValue}</p>`, 
+            tags: tagsValue
+        };
+
+        // Добавляем статью в начало массива
+        articlesData.unshift(newArticle);
+
+        // СОХРАНЯЕМ В ПАМЯТЬ БРАУЗЕРА (LocalStorage)
+        localStorage.setItem('myBlogPosts', JSON.stringify(articlesData));
+
+        // Перерисовываем список статей и очищаем форму
+        renderArticles(articlesData);
+        addForm.reset();
+    });
+}
